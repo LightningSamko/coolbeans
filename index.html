@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="sk">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Cool Beans - Pokladňa</title>
+  <style>
+    body {
+      font-family: "Inter", Arial, sans-serif;
+      background: #0f1116;
+      color: #fff;
+      margin: 0;
+      padding: 20px;
+      display: flex;
+      gap: 20px;
+    }
+    .products {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 16px;
+      flex: 2;
+    }
+    .product {
+      background: #1a1d24;
+      border-radius: 8px;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .product h3 {
+      margin: 0 0 8px 0;
+    }
+    .product p {
+      margin: 4px 0;
+    }
+    .product button {
+      background: #007bff;
+      border: none;
+      color: white;
+      padding: 8px;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    .product button:hover {
+      background: #005fcc;
+    }
+    .cart {
+      flex: 1;
+      background: #1a1d24;
+      border-radius: 8px;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      min-width: 300px;
+    }
+    .cart h2 {
+      margin-top: 0;
+    }
+    .cart-list {
+      flex-grow: 1;
+      overflow-y: auto;
+      margin-bottom: 10px;
+      border-top: 1px solid #333;
+      border-bottom: 1px solid #333;
+      padding: 8px 0;
+    }
+    .cart-item {
+      display: flex;
+      justify-content: space-between;
+      margin: 6px 0;
+    }
+    .totals p {
+      margin: 6px 0;
+    }
+    .btn-clear {
+      background: #b40000;
+      border: none;
+      color: white;
+      padding: 8px;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    .btn-clear:hover {
+      background: #8a0000;
+    }
+  </style>
+</head>
+<body>
+  <div class="products">
+    <div class="product">
+      <h3>Espresso</h3>
+      <p>Cena: 50 Kč</p>
+      <button onclick="addToCart('Espresso', 50)">Pridať</button>
+    </div>
+    <div class="product">
+      <h3>Cappuccino</h3>
+      <p>Cena: 65 Kč</p>
+      <button onclick="addToCart('Cappuccino', 65)">Pridať</button>
+    </div>
+    <div class="product">
+      <h3>Koláč čokoládový</h3>
+      <p>Cena: 80 Kč</p>
+      <button onclick="addToCart('Koláč čokoládový', 80)">Pridať</button>
+    </div>
+    <div class="product">
+      <h3>Cheesecake</h3>
+      <p>Cena: 85 Kč</p>
+      <button onclick="addToCart('Cheesecake', 85)">Pridať</button>
+    </div>
+    <div class="product">
+      <h3>Sendvič šunka & syr</h3>
+      <p>Cena: 75 Kč</p>
+      <button onclick="addToCart('Sendvič šunka & syr', 75)">Pridať</button>
+    </div>
+    <div class="product">
+      <h3>Latte Macchiato</h3>
+      <p>Cena: 70 Kč</p>
+      <button onclick="addToCart('Latte Macchiato', 70)">Pridať</button>
+    </div>
+  </div>
+
+  <div class="cart">
+    <div>
+      <h2>Košík</h2>
+      <div class="cart-list" id="cart-list"></div>
+      <div class="totals">
+        <p><b>Celkovo za produkty:</b> <span id="total">0</span> Kč</p>
+        <p><b>10 % mzda zamestnanca:</b> <span id="employee">0</span> Kč</p>
+        <hr>
+        <p><b>Spolu na zaplatenie:</b> <span id="final">0</span> Kč</p>
+      </div>
+    </div>
+    <button class="btn-clear" onclick="clearCart()">Vymazať košík</button>
+  </div>
+
+  <script>
+    let cart = [];
+
+    function addToCart(name, price) {
+      const existing = cart.find(p => p.name === name);
+      if (existing) existing.qty++;
+      else cart.push({ name, price, qty: 1 });
+      updateCart();
+    }
+
+    function updateCart() {
+      const list = document.getElementById("cart-list");
+      list.innerHTML = "";
+      let total = 0;
+      cart.forEach(item => {
+        const itemTotal = item.price * item.qty;
+        total += itemTotal;
+        const div = document.createElement("div");
+        div.classList.add("cart-item");
+        div.innerHTML = `
+          <span>${item.name} x${item.qty}</span>
+          <span>${itemTotal} Kč</span>
+        `;
+        list.appendChild(div);
+      });
+
+      const employee = Math.round(total * 0.10);
+      document.getElementById("total").textContent = total;
+      document.getElementById("employee").textContent = employee;
+      document.getElementById("final").textContent = total;
+    }
+
+    function clearCart() {
+      cart = [];
+      updateCart();
+    }
+  </script>
+</body>
+</html>
