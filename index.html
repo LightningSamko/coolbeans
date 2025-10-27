@@ -6,81 +6,97 @@
   <title>Cool Beans - Pokladňa</title>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap');
+
     body {
       font-family: "Inter", sans-serif;
       background: #0d1117;
-      color: #fff;
+      color: #f1f1f1;
       margin: 0;
-      padding: 20px;
+      padding: 40px 20px;
       display: flex;
-      gap: 24px;
-      min-height: 100vh;
+      flex-direction: column;
+      align-items: center;
     }
 
-    .products {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-      gap: 16px;
-      flex: 2;
+    h1 {
+      font-size: 24px;
+      margin-bottom: 20px;
+      color: #fff;
+    }
+
+    .container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      justify-content: center;
+      max-width: 1100px;
+      width: 100%;
     }
 
     .product {
       background: #161b22;
-      border-radius: 12px;
-      padding: 18px;
+      border-radius: 10px;
+      padding: 14px 16px;
+      width: 180px;
       display: flex;
       flex-direction: column;
+      align-items: center;
       justify-content: space-between;
-      box-shadow: 0 0 10px rgba(0,0,0,0.2);
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
       transition: all 0.2s ease;
     }
+
     .product:hover {
       transform: translateY(-3px);
       background: #1c222b;
     }
+
     .product h3 {
-      margin: 0 0 6px 0;
-      font-size: 18px;
-      color: #e3e3e3;
+      margin: 8px 0 4px;
+      font-size: 16px;
+      text-align: center;
     }
+
     .product p {
-      margin: 0 0 10px 0;
+      margin: 0;
+      font-size: 14px;
       color: #b9b9b9;
     }
+
     .product button {
-      background: #238636;
+      background: #2ea043;
       border: none;
       color: white;
-      padding: 10px;
+      padding: 8px 0;
       border-radius: 8px;
       cursor: pointer;
       font-weight: 600;
+      width: 100%;
+      font-size: 14px;
+      margin-top: 10px;
       transition: 0.2s;
     }
+
     .product button:hover {
-      background: #2ea043;
+      background: #3fc25c;
     }
 
     .cart {
-      flex: 1;
+      margin-top: 30px;
       background: #161b22;
       border-radius: 12px;
       padding: 18px;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      min-width: 320px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.2);
+      width: 360px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.25);
     }
 
     .cart h2 {
-      margin-top: 0;
-      font-size: 20px;
-      color: #e3e3e3;
+      margin: 0 0 10px 0;
+      text-align: center;
     }
 
     .cart-list {
-      flex-grow: 1;
+      max-height: 220px;
       overflow-y: auto;
       margin-bottom: 10px;
       border-top: 1px solid #2b2b2b;
@@ -91,112 +107,81 @@
     .cart-item {
       display: flex;
       justify-content: space-between;
-      margin: 6px 0;
-      color: #d1d1d1;
+      padding: 4px 0;
+      font-size: 14px;
+      color: #ddd;
     }
 
-    .totals p {
-      margin: 6px 0;
-      color: #b9b9b9;
-    }
-
-    input {
+    .cart input {
       background: #0d1117;
       border: 1px solid #30363d;
       color: #fff;
       padding: 10px;
       border-radius: 8px;
       width: 100%;
-      margin-bottom: 10px;
+      margin-bottom: 12px;
       font-size: 14px;
     }
-    input:focus {
-      outline: none;
-      border-color: #2ea043;
+
+    .totals p {
+      margin: 6px 0;
+      font-size: 14px;
+      color: #b9b9b9;
     }
 
-    .btn-clear, .btn-send {
+    .btn {
       border: none;
       color: white;
       padding: 10px;
       border-radius: 8px;
       cursor: pointer;
       font-weight: 600;
-      transition: 0.2s;
       width: 100%;
+      font-size: 14px;
+      transition: 0.2s;
       margin-top: 8px;
     }
 
-    .btn-clear {
-      background: #b40000;
-    }
-    .btn-clear:hover {
-      background: #8a0000;
-    }
-    .btn-send {
-      background: #238636;
-    }
-    .btn-send:hover {
+    .btn-green {
       background: #2ea043;
     }
+    .btn-green:hover {
+      background: #3fc25c;
+    }
 
-    hr {
-      border: none;
-      border-top: 1px solid #30363d;
-      margin: 10px 0;
+    .btn-red {
+      background: #b40000;
+    }
+    .btn-red:hover {
+      background: #8a0000;
     }
   </style>
 </head>
 <body>
-  <div class="products">
-    <div class="product">
-      <h3>Espresso</h3>
-      <p>50 Kč</p>
-      <button onclick="addToCart('Espresso', 50)">Pridať</button>
-    </div>
-    <div class="product">
-      <h3>Cappuccino</h3>
-      <p>65 Kč</p>
-      <button onclick="addToCart('Cappuccino', 65)">Pridať</button>
-    </div>
-    <div class="product">
-      <h3>Koláč čokoládový</h3>
-      <p>80 Kč</p>
-      <button onclick="addToCart('Koláč čokoládový', 80)">Pridať</button>
-    </div>
-    <div class="product">
-      <h3>Cheesecake</h3>
-      <p>85 Kč</p>
-      <button onclick="addToCart('Cheesecake', 85)">Pridať</button>
-    </div>
-    <div class="product">
-      <h3>Sendvič šunka & syr</h3>
-      <p>75 Kč</p>
-      <button onclick="addToCart('Sendvič šunka & syr', 75)">Pridať</button>
-    </div>
-    <div class="product">
-      <h3>Latte Macchiato</h3>
-      <p>70 Kč</p>
-      <button onclick="addToCart('Latte Macchiato', 70)">Pridať</button>
-    </div>
+  <h1>☕ Cool Beans Pokladňa</h1>
+
+  <div class="container">
+    <div class="product"><h3>Espresso</h3><p>50 Kč</p><button onclick="addToCart('Espresso', 50)">Pridať</button></div>
+    <div class="product"><h3>Cappuccino</h3><p>65 Kč</p><button onclick="addToCart('Cappuccino', 65)">Pridať</button></div>
+    <div class="product"><h3>Koláč čokoládový</h3><p>80 Kč</p><button onclick="addToCart('Koláč čokoládový', 80)">Pridať</button></div>
+    <div class="product"><h3>Cheesecake</h3><p>85 Kč</p><button onclick="addToCart('Cheesecake', 85)">Pridať</button></div>
+    <div class="product"><h3>Sendvič šunka & syr</h3><p>75 Kč</p><button onclick="addToCart('Sendvič šunka & syr', 75)">Pridať</button></div>
+    <div class="product"><h3>Latte Macchiato</h3><p>70 Kč</p><button onclick="addToCart('Latte Macchiato', 70)">Pridať</button></div>
   </div>
 
   <div class="cart">
-    <div>
-      <h2>🧾 Košík</h2>
-      <input id="employeeName" placeholder="Meno zamestnanca..." type="text" />
-      <div class="cart-list" id="cart-list"></div>
-      <div class="totals">
-        <p><b>Celkovo:</b> <span id="total">0</span> Kč</p>
-        <p><b>Mzda (10 %):</b> <span id="employee">0</span> Kč</p>
-        <hr>
-        <p><b>Spolu:</b> <span id="final">0</span> Kč</p>
-      </div>
+    <h2>🧾 Košík</h2>
+    <input id="employeeName" placeholder="Meno zamestnanca..." type="text" />
+    <div class="cart-list" id="cart-list"></div>
+
+    <div class="totals">
+      <p><b>Celkovo:</b> <span id="total">0</span> Kč</p>
+      <p><b>Mzda (10 %):</b> <span id="employee">0</span> Kč</p>
+      <p><b>Spolu:</b> <span id="final">0</span> Kč</p>
     </div>
-    <div>
-      <button class="btn-send" onclick="sendToDiscord()">Odoslať objednávku</button>
-      <button class="btn-clear" onclick="clearCart()">Vymazať košík</button>
-    </div>
+
+    <button class="btn btn-green" onclick="sendToDiscord()">Odoslať objednávku</button>
+    <button class="btn btn-red" onclick="clearCart()">Vymazať košík</button>
   </div>
 
   <script>
@@ -204,9 +189,8 @@
     let cart = [];
 
     function addToCart(name, price) {
-      const existing = cart.find(p => p.name === name);
-      if (existing) existing.qty++;
-      else cart.push({ name, price, qty: 1 });
+      const item = cart.find(p => p.name === name);
+      item ? item.qty++ : cart.push({ name, price, qty: 1 });
       updateCart();
     }
 
@@ -215,17 +199,16 @@
       list.innerHTML = "";
       let total = 0;
       cart.forEach(item => {
-        const itemTotal = item.price * item.qty;
-        total += itemTotal;
+        const subtotal = item.price * item.qty;
+        total += subtotal;
         const div = document.createElement("div");
         div.classList.add("cart-item");
-        div.innerHTML = `<span>${item.name} × ${item.qty}</span><span>${itemTotal} Kč</span>`;
+        div.innerHTML = `<span>${item.name} × ${item.qty}</span><span>${subtotal} Kč</span>`;
         list.appendChild(div);
       });
-
-      const employee = Math.round(total * 0.10);
+      const wage = Math.round(total * 0.1);
       document.getElementById("total").textContent = total;
-      document.getElementById("employee").textContent = employee;
+      document.getElementById("employee").textContent = wage;
       document.getElementById("final").textContent = total;
     }
 
@@ -235,41 +218,29 @@
     }
 
     async function sendToDiscord() {
-      if (cart.length === 0) {
-        alert("Košík je prázdny!");
-        return;
-      }
-
       const name = document.getElementById("employeeName").value.trim();
-      if (!name) {
-        alert("Zadaj meno zamestnanca!");
-        return;
-      }
+      if (!name) return alert("Zadaj meno zamestnanca!");
+      if (cart.length === 0) return alert("Košík je prázdny!");
 
-      const total = parseInt(document.getElementById("total").textContent);
-      const employee = parseInt(document.getElementById("employee").textContent);
+      const total = document.getElementById("total").textContent;
+      const wage = document.getElementById("employee").textContent;
+      const orderID = "CB-" + Math.floor(1000 + Math.random() * 9000);
 
-      let message = `**☕ Cool Beans - Nová objednávka**\n`;
-      message += `👤 **Zamestnanec:** ${name}\n\n`;
-
-      cart.forEach(item => {
-        message += `• ${item.name} × ${item.qty} = ${item.price * item.qty} Kč\n`;
-      });
-      message += `\n💰 **Celkovo:** ${total} Kč\n`;
-      message += `🧾 **Mzda zamestnanca (10 %):** ${employee} Kč\n`;
-      message += `✅ **Spolu na zaplatenie:** ${total} Kč`;
+      let msg = `**☕ Cool Beans - Nová objednávka**\n🆔 **Objednávka:** ${orderID}\n👤 **Zamestnanec:** ${name}\n\n`;
+      cart.forEach(i => msg += `• ${i.name} × ${i.qty} = ${i.price * i.qty} Kč\n`);
+      msg += `\n💰 **Celkovo:** ${total} Kč\n🧾 **Mzda (10 %):** ${wage} Kč\n✅ **Spolu:** ${total} Kč`;
 
       try {
         await fetch(WEBHOOK_URL, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ content: message })
+          body: JSON.stringify({ content: msg })
         });
-        alert("✅ Objednávka úspešne odoslaná do Discordu!");
+        alert("✅ Objednávka úspešne odoslaná!");
         clearCart();
         document.getElementById("employeeName").value = "";
       } catch (err) {
-        alert("⚠️ Chyba pri odosielaní do Discordu!");
+        alert("⚠️ Chyba pri odosielaní!");
         console.error(err);
       }
     }
