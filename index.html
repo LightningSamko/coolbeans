@@ -74,16 +74,23 @@
     .totals p {
       margin: 6px 0;
     }
-    .btn-clear {
-      background: #b40000;
+    .btn-clear, .btn-send {
+      background: #007bff;
       border: none;
       color: white;
       padding: 8px;
       border-radius: 6px;
       cursor: pointer;
+      margin-top: 6px;
+    }
+    .btn-clear {
+      background: #b40000;
     }
     .btn-clear:hover {
       background: #8a0000;
+    }
+    .btn-send:hover {
+      background: #005fcc;
     }
   </style>
 </head>
@@ -132,10 +139,14 @@
         <p><b>Spolu na zaplatenie:</b> <span id="final">0</span> Kč</p>
       </div>
     </div>
-    <button class="btn-clear" onclick="clearCart()">Vymazať košík</button>
+    <div>
+      <button class="btn-send" onclick="sendToDiscord()">Odoslať do Discordu</button>
+      <button class="btn-clear" onclick="clearCart()">Vymazať košík</button>
+    </div>
   </div>
 
   <script>
+    const WEBHOOK_URL = "https://discord.com/api/webhooks/1432474696007290890/SL4m4wFcHvvSvupDxdZUi1n_1H9xqH6PYQyoDWB81GQQrGBZ7ydKgV2Vga9KELGlRrjE";
     let cart = [];
 
     function addToCart(name, price) {
@@ -170,6 +181,37 @@
     function clearCart() {
       cart = [];
       updateCart();
+    }
+
+    async function sendToDiscord() {
+      if (cart.length === 0) {
+        alert("Košík je prázdny!");
+        return;
+      }
+
+      const total = parseInt(document.getElementById("total").textContent);
+      const employee = parseInt(document.getElementById("employee").textContent);
+
+      let message = "**🧾 Cool Beans - Nová objednávka**\n\n";
+      cart.forEach(item => {
+        message += `• ${item.name} × ${item.qty} = ${item.price * item.qty} Kč\n`;
+      });
+      message += `\n**Celkovo:** ${total} Kč\n`;
+      message += `**Mzda zamestnanca (10 %):** ${employee} Kč\n`;
+      message += `**Spolu na zaplatenie:** ${total} Kč`;
+
+      try {
+        await fetch(WEBHOOK_URL, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ content: message })
+        });
+        alert("Objednávka úspešne odoslaná do Discordu!");
+        clearCart();
+      } catch (err) {
+        alert("⚠️ Chyba pri odosielaní do Discordu!");
+        console.error(err);
+      }
     }
   </script>
 </body>
